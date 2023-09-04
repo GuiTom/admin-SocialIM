@@ -1,0 +1,32 @@
+{
+  "menus": [
+    {
+      "name": "用户",
+      "icon": "user_icon.webp",
+      "pageRoute": "/",
+      "subMenus": [{
+       "name": "用户账号",
+        "icon": "user_icon.webp",
+        "pageRoute": "/user/Account"
+      },{
+        "name": "用户关系",
+        "icon": "user_icon.webp",
+        "pageRoute": "/user/Relation"
+      }]
+    },
+    {
+      "name": "发现",
+      "icon": "user_icon.webp",
+      "pageRoute": "/discover",
+      "subMenus": [{
+        "name": "发现管理",
+        "icon": "user_icon.webp",
+        "pageRoute": "/discover/discoverPage"
+      },{
+        "name": "发现删除",
+        "icon": "user_icon.webp",
+        "pageRoute": "/discover/discoverReview"
+      }]
+    }
+  ]
+}
