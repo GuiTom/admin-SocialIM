@@ -9,8 +9,8 @@ import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
 import 'config.dart';
+import 'package:desktop_window/desktop_window.dart';
 
-// import 'dart:html' as html;
 import 'constant.dart';
 import 'routes.dart';
 
@@ -20,6 +20,8 @@ void main() async {
   if (!kIsWeb) {
     await Constant.initDiertory();
   }
+
+  await DesktopWindow.setWindowSize(const Size(1280,720));
   await PrefsHelper.init();
   runApp(const MyApp());
 }

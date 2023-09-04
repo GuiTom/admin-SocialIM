@@ -9,6 +9,7 @@ import 'package:cookie_jar/cookie_jar.dart';
 import 'dart:ui' as ui;
 
 import '../constant.dart';
+import '../model/session.dart';
 import '../util/toast_util.dart';
 
 class Net {
@@ -23,13 +24,14 @@ class Net {
 
   static Future<T> post<T extends $pb.GeneratedMessage>(
       {required String url,
-      required bool pb,
-      required Map<String, dynamic> params,
-      required T pbMsg}) async {
+        required bool pb,
+        required Map<String, dynamic> params,
+        required T pbMsg}) async {
     var headers = {'Content-Type': "application/x-www-form-urlencoded"};
     params['pb'] = pb ? '1' : '0';
     params['lan'] = ui.window.locale.languageCode;
     params['country'] = ui.window.locale.countryCode;
+    // params['isIos'] = Constant.isIos?'1':'0';
     try {
       var response = await dio.post(
         url,
@@ -47,127 +49,37 @@ class Net {
         }
       }
     } catch (error) {
-      if (error is DioError) {
-        if (error.response?.statusCode == 401) {
-          ToastUtil.showCenter(msg: '会话已过期');
-          // Session.logOut();
-        }
-        if (error.type == DioErrorType.other) {
-          ToastUtil.showCenter(msg: '网络错误');
-        } else if (error.type == DioErrorType.connectTimeout) {
-          ToastUtil.showCenter(
-              msg: '网络连接超时');
-        } else if (error.type == DioErrorType.receiveTimeout) {
-          ToastUtil.showCenter(
-              msg: '网络响应超时');
-        }
-      }
+      // if (error is DioError) {
+      //   if (error.response?.statusCode == 401) {
+      //     ToastUtil.showCenter(msg: K.getTranslation('login_session_expired'));
+      //     Session.logOut();
+      //   }
+      //   if (error.type == DioErrorType.other) {
+      //     ToastUtil.showCenter(msg: K.getTranslation('network_link_error'));
+      //   } else if (error.type == DioErrorType.connectTimeout) {
+      //     ToastUtil.showCenter(
+      //         msg: K.getTranslation('network_connect_timeout'));
+      //   } else if (error.type == DioErrorType.receiveTimeout) {
+      //     ToastUtil.showCenter(
+      //         msg: K.getTranslation('netowrk_response_timeout'));
+      //   }
+      // }
       dog.d(error);
     }
     return pbMsg;
   }
-
   static Dio? _dio;
-
   static Dio get dio {
     if (_dio == null) {
+      final cookieJar = PersistCookieJar(
+          storage: FileStorage(Constant.documentsDirectory?.path));
       _dio = Dio();
-      if(!kIsWeb) {
-        final cookieJar = PersistCookieJar(
-            storage: FileStorage(Constant.documentsDirectory?.path));
-
-        _dio!.interceptors.add(CookieManager(cookieJar));
-      }
+      _dio!.interceptors.add(CookieManager(cookieJar));
     }
     return _dio!;
   }
 
-  static Future<T> uploadFile<T extends $pb.GeneratedMessage>({
-    required String url,
-    String filePath = '',
-    required bool pb,
-    Uint8List? bytes,
-    String? fileName,
-    required Map<String, dynamic> params,
-    required T pbMsg,
-  }) async {
-    if (bytes?.isNotEmpty ?? false) {
-      params['file'] =
-          MultipartFile.fromBytes(bytes!.cast<int>(), filename: fileName);
-    } else {
-      File file = File(filePath); // 替换为你要上传的文件路径
-      fileName = file.path.split('/').last;
-      params['file'] =
-          await MultipartFile.fromFile(file.path, filename: fileName);
-    }
-    params['lan'] = ui.window.locale.languageCode;
-    params['country'] = ui.window.locale.countryCode;
-    FormData formData = FormData.fromMap(params);
-    try {
-      Response response = await dio.post(
-        url, // 替换为实际的文件上传接口URL
-        options:
-            Options(responseType: pb ? ResponseType.bytes : ResponseType.json),
-        data: formData,
-      );
-      if (response.statusCode == 200) {
-        if (pb) {
-          pbMsg.mergeFromBuffer(response.data);
-        } else {
-          pbMsg.mergeFromJson(response.data);
-        }
-      }
-    } catch (error) {
-      print('文件上传失败：$error');
-    }
-    return pbMsg;
-  }
 
-  static Future<T> uploadMultiFile<T extends $pb.GeneratedMessage>({
-    required String url,
-    required List<String> filePaths,
-    required bool pb,
-    String? fileName,
-    required Map<String, dynamic> params,
-    required T pbMsg,
-  }) async {
-    int index = 0;
-    for (String filePath in filePaths) {
-      File file = File(filePath); // 替换为你要上传的文件路径
-      fileName = file.path.split('/').last;
-      params['file_$index'] =
-          await MultipartFile.fromFile(file.path, filename: fileName);
-      index += 1;
-    }
-    params['lan'] = ui.window.locale.languageCode;
-    FormData formData = FormData.fromMap(params);
-    try {
-      Response response = await dio.post(
-        url, // 替换为实际的文件上传接口URL
-        options:
-            Options(responseType: pb ? ResponseType.bytes : ResponseType.json),
-        data: formData,
-      );
-      if (response.statusCode == 200) {
-        if (pb) {
-          pbMsg.mergeFromBuffer(response.data);
-        } else {
-          pbMsg.mergeFromJson(response.data);
-        }
-      }
-    } catch (error) {
-      print('文件上传失败：$error');
-    }
-    return pbMsg;
-  }
 
-  static Future<bool?> download(
-      String url, String savePath, ProgressCallback progressCallback) async {
-    Response resp =
-        await dio.download(url, savePath, onReceiveProgress: progressCallback);
-    if (resp.statusCode == 200) {
-      return true;
-    }
-    return false;
-  }
+
 }

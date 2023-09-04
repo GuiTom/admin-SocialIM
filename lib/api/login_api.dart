@@ -22,7 +22,6 @@ class LoginAPI{
     } else {
       params['code'] = smsCode;
     }
-    params['isIos'] = 0;
     UserInfoResp resp = await Net.post(
         url: System.api("/api/user/login"),
         pb: true,
