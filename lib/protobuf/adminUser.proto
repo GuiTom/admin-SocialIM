@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package user;
+
+option go_package = "./model";
+
+message AdminUser {
+  int64 id = 1;
+  string name = 2;
+  string email = 3;
+  string phone = 4;
+  string password = 5;
+  string priviledge = 6;
+  bool passwordSetted = 7;
+}
+message AdminUserInfoResp {
+  int32 code = 1;
+  string message = 2;
+  AdminUser data = 3;
+}
+
+
+
+

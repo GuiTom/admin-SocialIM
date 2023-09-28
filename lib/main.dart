@@ -3,7 +3,7 @@ import 'package:admin_backend/util/events.dart';
 import '../model/session.dart';
 import '../util/prefs_helper.dart';
 import '../widget/left_menu_widget.dart';
-import '../widget/login_page.dart';
+import 'login/login_page.dart';
 import '../widget/side_menu.dart';
 import 'package:flutter/foundation.dart';
 
@@ -20,8 +20,9 @@ void main() async {
   if (!kIsWeb) {
     await Constant.initDiertory();
   }
-
-  await DesktopWindow.setWindowSize(const Size(1280,720));
+  if (!kIsWeb) {
+    await DesktopWindow.setWindowSize(const Size(1280, 720));
+  }
   await PrefsHelper.init();
   runApp(const MyApp());
 }

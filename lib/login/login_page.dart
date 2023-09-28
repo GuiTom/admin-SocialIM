@@ -1,5 +1,5 @@
 import 'package:admin_backend/api/login_api.dart';
-import 'package:admin_backend/protobuf/generated/user.pb.dart';
+import 'package:admin_backend/protobuf/generated/adminUser.pb.dart';
 import 'package:admin_backend/util/events.dart';
 import 'package:admin_backend/util/toast_util.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +8,7 @@ import '../locale/k.dart';
 import '../model/session.dart';
 import '../util/prefs_helper.dart';
 import '../util/util.dart';
-import 'button.dart';
+import '../widget/button.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -20,6 +20,7 @@ class LoginPage extends StatefulWidget {
 class _State extends State<LoginPage> {
   String? _email;
   String? _password;
+
   @override
   void initState() {
     super.initState();
@@ -52,6 +53,12 @@ class _State extends State<LoginPage> {
               height: 20,
             ),
             _buildLoginButton(),
+            const SizedBox(
+              height: 20,
+            ),
+            Align(
+                alignment: AlignmentDirectional.centerEnd,
+                child: Padding(padding: const EdgeInsetsDirectional.only(end: 20), child: _buildRegisterButton())),
           ],
         ),
       ),
@@ -76,7 +83,7 @@ class _State extends State<LoginPage> {
             borderSide: BorderSide(),
           ),
         ),
-        onChanged: (String value){
+        onChanged: (String value) {
           _email = value;
         },
       ),
@@ -100,33 +107,38 @@ class _State extends State<LoginPage> {
             borderSide: BorderSide(),
           ),
         ),
-        onChanged: (String value){
+        onChanged: (String value) {
           _password = value;
         },
       ),
     );
   }
-  Widget _buildLoginButton(){
+
+  Widget _buildLoginButton() {
     return InkWell(
-      onTap: () async{
-        if(_email==null||_email!.isEmpty){
+      onTap: () async {
+        if (_email == null || _email!.isEmpty) {
           ToastUtil.showCenter(msg: '请输入邮箱地址');
           return;
         }
-        if(_password==null||_password!.isEmpty){
+        if (_password == null || _password!.isEmpty) {
           ToastUtil.showCenter(msg: '请输入密码');
           return;
         }
-       UserInfoResp?  resp = await LoginAPI.login(email: _email,password: Util.cryptPwd(_password!));
-       if(resp?.code==1??false){
-         Session.userInfo = resp!.data;
-         eventCenter.emit('userInfoChanged');
-         PrefsHelper.setString('lastAccount', _email!);
-       }
+        AdminUserInfoResp? resp = await LoginAPI.login(
+            email: _email, password: Util.cryptPwd(_password!));
+        if (resp?.code == 1 ?? false) {
+          Session.userInfo = resp!.data;
+          eventCenter.emit('userInfoChanged');
+          PrefsHelper.setString('lastAccount', _email!);
+        }
       },
-      child: Button(
-          title: K.getTranslation('login'),
-          buttonSize: ButtonSize.Big),
+      child:
+          Button(title: K.getTranslation('login'), buttonSize: ButtonSize.Big),
     );
+  }
+
+  Widget _buildRegisterButton() {
+    return ElevatedButton(onPressed: () {}, child: Text('注册'));
   }
 }

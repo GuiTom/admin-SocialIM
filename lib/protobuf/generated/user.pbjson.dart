@@ -20,7 +20,7 @@ const User$json = const {
     const {'1': 'phone', '3': 6, '4': 1, '5': 9, '10': 'phone'},
     const {'1': 'headId', '3': 8, '4': 1, '5': 9, '10': 'headId'},
     const {'1': 'level', '3': 9, '4': 1, '5': 5, '10': 'level'},
-    const {'1': 'wealth', '3': 10, '4': 1, '5': 5, '10': 'wealth'},
+    const {'1': 'createAt', '3': 10, '4': 1, '5': 3, '10': 'createAt'},
     const {'1': 'bornAt', '3': 11, '4': 1, '5': 3, '10': 'bornAt'},
     const {'1': 'signature', '3': 12, '4': 1, '5': 9, '10': 'signature'},
     const {'1': 'cityCode', '3': 13, '4': 1, '5': 9, '10': 'cityCode'},
@@ -38,11 +38,15 @@ const User$json = const {
     const {'1': 'blackUidListStr', '3': 25, '4': 1, '5': 9, '10': 'blackUidListStr'},
     const {'1': 'blackDynIdListStr', '3': 26, '4': 1, '5': 9, '10': 'blackDynIdListStr'},
     const {'1': 'worksCount', '3': 27, '4': 1, '5': 5, '10': 'worksCount'},
+    const {'1': 'monthlyVipExpireAt', '3': 28, '4': 1, '5': 3, '10': 'monthlyVipExpireAt'},
+    const {'1': 'yearlyVipExpireAt', '3': 29, '4': 1, '5': 3, '10': 'yearlyVipExpireAt'},
+    const {'1': 'hasCrown', '3': 30, '4': 1, '5': 8, '10': 'hasCrown'},
+    const {'1': 'coin', '3': 31, '4': 1, '5': 5, '10': 'coin'},
   ],
 };
 
 /// Descriptor for `User`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List userDescriptor = $convert.base64Decode('CgRVc2VyEg4KAmlkGAEgASgDUgJpZBISCgRuYW1lGAIgASgJUgRuYW1lEhAKA3NleBgDIAEoBVIDc2V4EhYKBmhlaWdodBgEIAEoBVIGaGVpZ2h0EhQKBWVtYWlsGAUgASgJUgVlbWFpbBIUCgVwaG9uZRgGIAEoCVIFcGhvbmUSFgoGaGVhZElkGAggASgJUgZoZWFkSWQSFAoFbGV2ZWwYCSABKAVSBWxldmVsEhYKBndlYWx0aBgKIAEoBVIGd2VhbHRoEhYKBmJvcm5BdBgLIAEoA1IGYm9ybkF0EhwKCXNpZ25hdHVyZRgMIAEoCVIJc2lnbmF0dXJlEhoKCGNpdHlDb2RlGA0gASgJUghjaXR5Q29kZRIiCgxwcm92aW5jZUNvZGUYDiABKAlSDHByb3ZpbmNlQ29kZRIgCgtjb3VudHJ5Q29kZRgPIAEoCVILY291bnRyeUNvZGUSGgoIY2l0eU5hbWUYECABKAlSCGNpdHlOYW1lEiIKDHByb3ZpbmNlTmFtZRgRIAEoCVIMcHJvdmluY2VOYW1lEiAKC2NvdW50cnlOYW1lGBIgASgJUgtjb3VudHJ5TmFtZRIYCgdzZXR0aW5nGBMgASgJUgdzZXR0aW5nEiYKDnBhc3N3b3JkU2V0dGVkGBQgASgIUg5wYXNzd29yZFNldHRlZBIiCgx0b1VuUmVnaXN0ZXIYFSABKAhSDHRvVW5SZWdpc3RlchIqChBmcmllbmRVaWRMaXN0U3RyGBYgASgJUhBmcmllbmRVaWRMaXN0U3RyEiYKDmZhbnNVaWRMaXN0U3RyGBcgASgJUg5mYW5zVWlkTGlzdFN0chIoCg9mb2N1c1VpZExpc3RTdHIYGCABKAlSD2ZvY3VzVWlkTGlzdFN0chIoCg9ibGFja1VpZExpc3RTdHIYGSABKAlSD2JsYWNrVWlkTGlzdFN0chIsChFibGFja0R5bklkTGlzdFN0chgaIAEoCVIRYmxhY2tEeW5JZExpc3RTdHISHgoKd29ya3NDb3VudBgbIAEoBVIKd29ya3NDb3VudA==');
+final $typed_data.Uint8List userDescriptor = $convert.base64Decode('CgRVc2VyEg4KAmlkGAEgASgDUgJpZBISCgRuYW1lGAIgASgJUgRuYW1lEhAKA3NleBgDIAEoBVIDc2V4EhYKBmhlaWdodBgEIAEoBVIGaGVpZ2h0EhQKBWVtYWlsGAUgASgJUgVlbWFpbBIUCgVwaG9uZRgGIAEoCVIFcGhvbmUSFgoGaGVhZElkGAggASgJUgZoZWFkSWQSFAoFbGV2ZWwYCSABKAVSBWxldmVsEhoKCGNyZWF0ZUF0GAogASgDUghjcmVhdGVBdBIWCgZib3JuQXQYCyABKANSBmJvcm5BdBIcCglzaWduYXR1cmUYDCABKAlSCXNpZ25hdHVyZRIaCghjaXR5Q29kZRgNIAEoCVIIY2l0eUNvZGUSIgoMcHJvdmluY2VDb2RlGA4gASgJUgxwcm92aW5jZUNvZGUSIAoLY291bnRyeUNvZGUYDyABKAlSC2NvdW50cnlDb2RlEhoKCGNpdHlOYW1lGBAgASgJUghjaXR5TmFtZRIiCgxwcm92aW5jZU5hbWUYESABKAlSDHByb3ZpbmNlTmFtZRIgCgtjb3VudHJ5TmFtZRgSIAEoCVILY291bnRyeU5hbWUSGAoHc2V0dGluZxgTIAEoCVIHc2V0dGluZxImCg5wYXNzd29yZFNldHRlZBgUIAEoCFIOcGFzc3dvcmRTZXR0ZWQSIgoMdG9VblJlZ2lzdGVyGBUgASgIUgx0b1VuUmVnaXN0ZXISKgoQZnJpZW5kVWlkTGlzdFN0chgWIAEoCVIQZnJpZW5kVWlkTGlzdFN0chImCg5mYW5zVWlkTGlzdFN0chgXIAEoCVIOZmFuc1VpZExpc3RTdHISKAoPZm9jdXNVaWRMaXN0U3RyGBggASgJUg9mb2N1c1VpZExpc3RTdHISKAoPYmxhY2tVaWRMaXN0U3RyGBkgASgJUg9ibGFja1VpZExpc3RTdHISLAoRYmxhY2tEeW5JZExpc3RTdHIYGiABKAlSEWJsYWNrRHluSWRMaXN0U3RyEh4KCndvcmtzQ291bnQYGyABKAVSCndvcmtzQ291bnQSLgoSbW9udGhseVZpcEV4cGlyZUF0GBwgASgDUhJtb250aGx5VmlwRXhwaXJlQXQSLAoReWVhcmx5VmlwRXhwaXJlQXQYHSABKANSEXllYXJseVZpcEV4cGlyZUF0EhoKCGhhc0Nyb3duGB4gASgIUghoYXNDcm93bhISCgRjb2luGB8gASgFUgRjb2lu');
 @$core.Deprecated('Use userListRespDescriptor instead')
 const UserListResp$json = const {
   '1': 'UserListResp',

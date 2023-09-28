@@ -11,6 +11,7 @@ import 'package:flutter/cupertino.dart';
 import '../protobuf/generated/common.pb.dart';
 import '../protobuf/generated/user.pb.dart';
 import '../util/util.dart';
+import '../widget/button.dart';
 
 class UserPage extends StatefulWidget {
   const UserPage({super.key});
@@ -63,6 +64,7 @@ class _State extends State<UserPage> {
                     );
                   },
                   itemCount: _userList.length)),
+          const Button(title: "确定",buttonSize: ButtonSize.Big,),
         ],
       ),
     );

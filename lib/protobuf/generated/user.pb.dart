@@ -20,7 +20,7 @@ class User extends $pb.GeneratedMessage {
     ..aOS(6, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'phone')
     ..aOS(8, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'headId', protoName: 'headId')
     ..a<$core.int>(9, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'level', $pb.PbFieldType.O3)
-    ..a<$core.int>(10, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'wealth', $pb.PbFieldType.O3)
+    ..aInt64(10, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'createAt', protoName: 'createAt')
     ..aInt64(11, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'bornAt', protoName: 'bornAt')
     ..aOS(12, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'signature')
     ..aOS(13, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'cityCode', protoName: 'cityCode')
@@ -38,6 +38,10 @@ class User extends $pb.GeneratedMessage {
     ..aOS(25, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'blackUidListStr', protoName: 'blackUidListStr')
     ..aOS(26, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'blackDynIdListStr', protoName: 'blackDynIdListStr')
     ..a<$core.int>(27, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'worksCount', $pb.PbFieldType.O3, protoName: 'worksCount')
+    ..aInt64(28, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'monthlyVipExpireAt', protoName: 'monthlyVipExpireAt')
+    ..aInt64(29, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'yearlyVipExpireAt', protoName: 'yearlyVipExpireAt')
+    ..aOB(30, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'hasCrown', protoName: 'hasCrown')
+    ..a<$core.int>(31, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'coin', $pb.PbFieldType.O3)
     ..hasRequiredFields = false
   ;
 
@@ -51,7 +55,7 @@ class User extends $pb.GeneratedMessage {
     $core.String? phone,
     $core.String? headId,
     $core.int? level,
-    $core.int? wealth,
+    $fixnum.Int64? createAt,
     $fixnum.Int64? bornAt,
     $core.String? signature,
     $core.String? cityCode,
@@ -69,6 +73,10 @@ class User extends $pb.GeneratedMessage {
     $core.String? blackUidListStr,
     $core.String? blackDynIdListStr,
     $core.int? worksCount,
+    $fixnum.Int64? monthlyVipExpireAt,
+    $fixnum.Int64? yearlyVipExpireAt,
+    $core.bool? hasCrown,
+    $core.int? coin,
   }) {
     final _result = create();
     if (id != null) {
@@ -95,8 +103,8 @@ class User extends $pb.GeneratedMessage {
     if (level != null) {
       _result.level = level;
     }
-    if (wealth != null) {
-      _result.wealth = wealth;
+    if (createAt != null) {
+      _result.createAt = createAt;
     }
     if (bornAt != null) {
       _result.bornAt = bornAt;
@@ -148,6 +156,18 @@ class User extends $pb.GeneratedMessage {
     }
     if (worksCount != null) {
       _result.worksCount = worksCount;
+    }
+    if (monthlyVipExpireAt != null) {
+      _result.monthlyVipExpireAt = monthlyVipExpireAt;
+    }
+    if (yearlyVipExpireAt != null) {
+      _result.yearlyVipExpireAt = yearlyVipExpireAt;
+    }
+    if (hasCrown != null) {
+      _result.hasCrown = hasCrown;
+    }
+    if (coin != null) {
+      _result.coin = coin;
     }
     return _result;
   }
@@ -245,13 +265,13 @@ class User extends $pb.GeneratedMessage {
   void clearLevel() => clearField(9);
 
   @$pb.TagNumber(10)
-  $core.int get wealth => $_getIZ(8);
+  $fixnum.Int64 get createAt => $_getI64(8);
   @$pb.TagNumber(10)
-  set wealth($core.int v) { $_setSignedInt32(8, v); }
+  set createAt($fixnum.Int64 v) { $_setInt64(8, v); }
   @$pb.TagNumber(10)
-  $core.bool hasWealth() => $_has(8);
+  $core.bool hasCreateAt() => $_has(8);
   @$pb.TagNumber(10)
-  void clearWealth() => clearField(10);
+  void clearCreateAt() => clearField(10);
 
   @$pb.TagNumber(11)
   $fixnum.Int64 get bornAt => $_getI64(9);
@@ -405,6 +425,42 @@ class User extends $pb.GeneratedMessage {
   $core.bool hasWorksCount() => $_has(25);
   @$pb.TagNumber(27)
   void clearWorksCount() => clearField(27);
+
+  @$pb.TagNumber(28)
+  $fixnum.Int64 get monthlyVipExpireAt => $_getI64(26);
+  @$pb.TagNumber(28)
+  set monthlyVipExpireAt($fixnum.Int64 v) { $_setInt64(26, v); }
+  @$pb.TagNumber(28)
+  $core.bool hasMonthlyVipExpireAt() => $_has(26);
+  @$pb.TagNumber(28)
+  void clearMonthlyVipExpireAt() => clearField(28);
+
+  @$pb.TagNumber(29)
+  $fixnum.Int64 get yearlyVipExpireAt => $_getI64(27);
+  @$pb.TagNumber(29)
+  set yearlyVipExpireAt($fixnum.Int64 v) { $_setInt64(27, v); }
+  @$pb.TagNumber(29)
+  $core.bool hasYearlyVipExpireAt() => $_has(27);
+  @$pb.TagNumber(29)
+  void clearYearlyVipExpireAt() => clearField(29);
+
+  @$pb.TagNumber(30)
+  $core.bool get hasCrown => $_getBF(28);
+  @$pb.TagNumber(30)
+  set hasCrown($core.bool v) { $_setBool(28, v); }
+  @$pb.TagNumber(30)
+  $core.bool hasHasCrown() => $_has(28);
+  @$pb.TagNumber(30)
+  void clearHasCrown() => clearField(30);
+
+  @$pb.TagNumber(31)
+  $core.int get coin => $_getIZ(29);
+  @$pb.TagNumber(31)
+  set coin($core.int v) { $_setSignedInt32(29, v); }
+  @$pb.TagNumber(31)
+  $core.bool hasCoin() => $_has(29);
+  @$pb.TagNumber(31)
+  void clearCoin() => clearField(31);
 }
 
 class UserListResp extends $pb.GeneratedMessage {

@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package common;
+
+option go_package ="./common";
+
+message Resp {
+  int32 code = 1;
+  string message = 2;
+  int32 data = 3;
+}

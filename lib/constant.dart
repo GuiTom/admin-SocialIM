@@ -29,10 +29,9 @@ class Constant {
 
   static const String releaseSocketUrl = 'ws://qtxjc.com:8086/ws';
 
-  static const String debugServertUrl = 'http://192.168.1.12:8080';
+  static const String debugServertUrl = 'http://192.168.1.12:8090';
 
   static const String releaseServerUrl = 'http://qtxjc.com:8080';
-  static const String agroaAppId = "0a3d1efd4a7d4ed4a057a0ee869cfcfb";
 
   static bool get isDebug {
 

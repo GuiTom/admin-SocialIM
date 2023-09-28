@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+package user;
+
+option go_package = "./model";
+
+message User {
+  int64 id = 1;
+  string name = 2;
+  int32 sex = 3;
+  int32 height = 4;
+  string email = 5;
+  string phone = 6;
+  string headId = 8;
+  int32 level = 9;
+  int64 createAt = 10;
+  int64 bornAt = 11;
+  string signature = 12;
+  string cityCode = 13;
+  string provinceCode = 14;
+  string countryCode = 15;
+  string cityName = 16;
+  string provinceName = 17;
+  string countryName = 18;
+  string setting = 19;
+  bool passwordSetted = 20;
+  bool toUnRegister = 21;
+  string friendUidListStr = 22;
+  string  fansUidListStr = 23;
+  string  focusUidListStr = 24;
+  string  blackUidListStr = 25;
+  string  blackDynIdListStr = 26;
+  int32 worksCount = 27;
+  int64 monthlyVipExpireAt = 28;
+  int64 yearlyVipExpireAt = 29;
+  bool hasCrown = 30;
+  int32 coin = 31;
+}
+message UserListResp {
+  int32 code = 1;
+  string message = 2;
+  repeated User data = 3;
+  bool hasMore = 4;
+}
+message UserInfoResp {
+  int32 code = 1;
+  string message = 2;
+  User data = 3;
+}
+message GenerateNameResp {
+  int32 code = 1;
+  string message = 2;
+  string data = 3;
+}
+message FriendListResp{
+  int32 code = 1;
+  string  message = 2;
+  repeated User list = 3;
+
+}
+message FocusListResp{
+  int32 code = 1;
+  string  message = 2;
+  repeated User list = 3;
+
+}
+message FansListResp{
+  int32 code = 1;
+  string  message = 2;
+  repeated User list = 3;
+}
+
+message UserBlackListResp{
+  int32 code = 1;
+  string  message = 2;
+  repeated User list = 3;
+}
+
+

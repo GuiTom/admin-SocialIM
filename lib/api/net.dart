@@ -7,7 +7,7 @@ import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'dart:ui' as ui;
-
+import '../locale/k.dart';
 import '../constant.dart';
 import '../model/session.dart';
 import '../util/toast_util.dart';
@@ -49,21 +49,21 @@ class Net {
         }
       }
     } catch (error) {
-      // if (error is DioError) {
-      //   if (error.response?.statusCode == 401) {
-      //     ToastUtil.showCenter(msg: K.getTranslation('login_session_expired'));
-      //     Session.logOut();
-      //   }
-      //   if (error.type == DioErrorType.other) {
-      //     ToastUtil.showCenter(msg: K.getTranslation('network_link_error'));
-      //   } else if (error.type == DioErrorType.connectTimeout) {
-      //     ToastUtil.showCenter(
-      //         msg: K.getTranslation('network_connect_timeout'));
-      //   } else if (error.type == DioErrorType.receiveTimeout) {
-      //     ToastUtil.showCenter(
-      //         msg: K.getTranslation('netowrk_response_timeout'));
-      //   }
-      // }
+      if (error is DioError) {
+        if (error.response?.statusCode == 401) {
+          ToastUtil.showCenter(msg: K.getTranslation('login_session_expired'));
+          Session.logOut();
+        }
+        if (error.type == DioErrorType.other) {
+          ToastUtil.showCenter(msg: K.getTranslation('network_link_error'));
+        } else if (error.type == DioErrorType.connectTimeout) {
+          ToastUtil.showCenter(
+              msg: K.getTranslation('network_connect_timeout'));
+        } else if (error.type == DioErrorType.receiveTimeout) {
+          ToastUtil.showCenter(
+              msg: K.getTranslation('netowrk_response_timeout'));
+        }
+      }
       dog.d(error);
     }
     return pbMsg;
