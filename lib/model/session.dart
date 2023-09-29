@@ -49,12 +49,18 @@ class Session {
   static String getValue(String key) {
     return PrefsHelper.getValue(key, '');
   }
-
+  static set sessionId(String value){
+    PrefsHelper.setString('sessionId', value);
+  }
+  static String get sessionId{
+    return PrefsHelper.getString('sessionId', '');
+  }
   static void logOut() {
     eventCenter.emit('logOut');
     PrefsHelper.delete('userInfo');
     PrefsHelper.delete('countryIsoCode');
     PrefsHelper.delete('needShowProfilePreset');
+    PrefsHelper.delete('sessionId');
 
     allowPasswordEmpty = false;
     userInfo = null;

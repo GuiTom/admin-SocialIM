@@ -1,6 +1,3 @@
-import 'dart:async';
-import 'dart:convert';
-import 'dart:html';
 import 'dart:typed_data';
 import 'package:dog/dog.dart';
 import 'package:flutter/foundation.dart';
@@ -14,9 +11,6 @@ import '../locale/k.dart';
 import '../constant.dart';
 import '../model/session.dart';
 import '../util/toast_util.dart';
-
-// import 'package:http_requests/http_requests.dart';
-import 'dart:js';
 
 class Net {
   static int LOGIC_ERROR_NO_RECORD = -4;
@@ -33,31 +27,34 @@ class Net {
       required bool pb,
       required Map<String, dynamic> params,
       required T pbMsg}) async {
-    var headers = {
-      'Content-Type': "application/x-www-form-urlencoded",
-    };
+    var headers = {'Content-Type': "application/x-www-form-urlencoded"};
     params['pb'] = pb ? '1' : '0';
     params['lan'] = ui.window.locale.languageCode;
-    context['console'].callMethod('log', ['开始调用']);
-    JsObject(context['getDartCall'], [url, jsonEncode(params)]);
-    Completer completer = new Completer();
-    context['jsCallBack'] = (response,responseData) {
-      print(response);
-      completer.complete(Future.value({'response':response,'responseData':responseData}));
-    };
+    params['country'] = ui.window.locale.countryCode;
+    if (Session.sessionId.isNotEmpty) {
+      params['sessionId'] = Session.sessionId;
+    }
 
     try {
-      var response = await completer.future;
-      if (response != null && response is JsObject) {
-        // 获取响应中的二进制数据部分
-        if (response['status'] == 200) {
-          // final Uint8List data =
-          //     Uint8List.fromList(response['data']);
-          // pbMsg.mergeFromBuffer(data);
+      var response = await dio.post(
+        url,
+        options: Options(
+            headers: headers,
+            responseType: pb ? ResponseType.bytes : ResponseType.json),
+        data: FormData.fromMap(params),
+      );
+
+      if (response.statusCode == 200) {
+        if (pb) {
+          pbMsg.mergeFromBuffer(response.data);
         } else {
-          // 处理错误或无效的响应
-          print('response:$response');
+          pbMsg.mergeFromJson(response.data);
         }
+        response.headers.forEach((name, values) {
+          if (name == "sessionid") {
+            Session.sessionId = values.first;
+          }
+        });
       }
     } catch (error) {
       if (error is DioError) {
