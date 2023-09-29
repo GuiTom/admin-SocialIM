@@ -15,6 +15,7 @@ import 'config.dart';
 import 'package:desktop_window/desktop_window.dart';
 
 import 'constant.dart';
+import 'login/password_setting_page.dart';
 import 'routes.dart';
 
 void main() async {
@@ -63,6 +64,9 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+    if(!kReleaseMode){
+      _selectedMenuName = PrefsHelper.getString('selectedMenuName');
+    }
     // _selectedMenuName = html.window.location.pathname;
     eventCenter.addListener('userInfoChanged', (type, data) {
       setState(() {});
@@ -72,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future _getUserInfo() async {
     AdminUserInfoResp resp = await LoginApi.getAdminUserInfo(uid: Session.uid);
-    if(resp.code==1) {
+    if (resp.code == 1) {
       Session.userInfo = resp.data;
     }
   }
@@ -85,14 +89,32 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
         actions: Session.uid > 0
             ? [
+
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 22),
-                  child: IconButton(
-                      onPressed: () {
+                  padding: const EdgeInsets.only(right: 30),
+                  child: PopupMenuButton<String>(
+                    onSelected: (String choice) {
+                      if (choice == 'exit') {
                         Session.logOut();
-                      },
-                      icon: const Icon(Icons.exit_to_app)),
-                )
+                      } else if (choice == 'changePassword') {
+                        PasswordSettingPage.show(Constant.context);
+                      }
+                    },
+                    child: const Icon(Icons.exit_to_app),
+                    itemBuilder: (BuildContext context) {
+                      return [
+                        const PopupMenuItem<String>(
+                          value: 'changePassword',
+                          child: Text('修改密码'),
+                        ),
+                        const PopupMenuItem<String>(
+                          value: 'exit',
+                          child: Text('退出'),
+                        ),
+                      ];
+                    },
+                  ),
+                ),
               ]
             : [],
       ),
@@ -114,7 +136,7 @@ class _MyHomePageState extends State<MyHomePage> {
           color: Colors.blue,
           width: 5,
         ),
-        _buildContent(_selectedMenuName ?? ''),
+        Expanded(child: _buildContent(_selectedMenuName ?? '')),
         //     Expanded(
         //         child: Navigator(
         //           observers: [defaultLifecycleObserver],
@@ -139,6 +161,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onNotification: (MyNotification notification) {
           _selectedMenuName = notification.message;
 
+          PrefsHelper.setString('selectedMenuName', _selectedMenuName!);
           setState(() {});
 
           return true;

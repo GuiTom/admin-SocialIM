@@ -37,11 +37,9 @@ class LoginApi{
     return null;
   }
   static Future<AdminUserInfoResp?> register(
-      {String? phoneCompleteNumber, String? smsCode, String? email}) async {
+      {String? smsCode, String? email}) async {
     Map<String, dynamic> params = {'sms_code': smsCode};
-    if (phoneCompleteNumber != null) {
-      params['phone'] = phoneCompleteNumber!;
-    }
+
     if (email != null) {
       params['email'] = email!;
     }

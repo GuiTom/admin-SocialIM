@@ -44,15 +44,27 @@ class _State extends State<UserPage> {
         radius: 50,
       );
     }
-    return SizedBox(
+    return Container(
+      padding: const EdgeInsetsDirectional.symmetric(horizontal: 12),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
       width: Util.width - 155,
       child: Column(
         children: [
           Container(
-              color: Colors.white, child: const Center(child: Text('发现管理1'))),
+              height: 100,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: Colors.white.withOpacity(0.5),
+              ),
+              child: const Center(
+                  child: Text(
+                '用户管理',
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ))),
+          _buildTableHeader(),
           Container(
             height: 5,
-            color: Colors.grey,
+            color: Colors.grey.withOpacity(0.1),
           ),
           Expanded(
               child: ListView.separated(
@@ -60,23 +72,53 @@ class _State extends State<UserPage> {
                   separatorBuilder: (BuildContext context, int index) {
                     return Container(
                       height: 5,
-                      color: Colors.grey,
+                      color: Colors.grey.withOpacity(0.1),
                     );
                   },
                   itemCount: _userList.length)),
-          const Button(title: "确定",buttonSize: ButtonSize.Big,),
+          Button(
+            onTap: () {
+
+            },
+            title: "确定",
+            buttonSize: ButtonSize.Small,
+          ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildTableHeader() {
+    return SizedBox(
+      height: 80,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: ['id', '昵称', '性别', '地区']
+            .map((e) => Expanded(
+                    child: Text(
+                  e,
+                  textAlign: TextAlign.center,
+                )))
+            .toList(),
       ),
     );
   }
 
   Widget _buildRow(BuildContext context, int index) {
     User user = _userList[index];
-    return Container(
-      height: 50,
-      color: Colors.white,
-      child: Text(user.name),
+    return SizedBox(
+      height: 80,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          user.id.toString(),
+          user.name,
+          user.sex.toString(),
+          user.countryName
+        ]
+            .map((e) => Expanded(child: Text(e, textAlign: TextAlign.center)))
+            .toList(),
+      ),
     );
   }
-
 }

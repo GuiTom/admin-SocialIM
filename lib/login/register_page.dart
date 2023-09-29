@@ -110,7 +110,6 @@ class _State extends State<RegisterPage> {
             phoneCompleteNumber = '$_areaCode-${_phone}';
           }
           AdminUserInfoResp? resp = await LoginApi.register(
-              phoneCompleteNumber: phoneCompleteNumber,
               email: _email,
               smsCode: _smsCode);
           if (resp != null) {
