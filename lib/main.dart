@@ -1,4 +1,7 @@
+import 'package:admin_backend/api/login_api.dart';
+import 'package:admin_backend/protobuf/generated/adminUser.pb.dart';
 import 'package:admin_backend/util/events.dart';
+import 'package:lifecycle/lifecycle.dart';
 
 import '../model/session.dart';
 import '../util/prefs_helper.dart';
@@ -35,10 +38,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Admin cosole',
+      navigatorObservers: [defaultLifecycleObserver],
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Admin cosole'),
+      home: const MyHomePage(title: 'Admin console'),
     );
   }
 }
@@ -63,16 +67,22 @@ class _MyHomePageState extends State<MyHomePage> {
     eventCenter.addListener('userInfoChanged', (type, data) {
       setState(() {});
     });
+    _getUserInfo();
+  }
+
+  Future _getUserInfo() async {
+    AdminUserInfoResp resp = await LoginApi.getAdminUserInfo(uid: Session.uid);
+    if(resp.code==1) {
+      Session.userInfo = resp.data;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    Constant.context = context;
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
-
         actions: Session.uid > 0
             ? [
                 Padding(
@@ -128,10 +138,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return NotificationListener(
         onNotification: (MyNotification notification) {
           _selectedMenuName = notification.message;
-          // if (_selectedMenuName != null) {
-          // Routers.naviToSubPage(_selectedMenuName!);
 
-          // }
           setState(() {});
 
           return true;

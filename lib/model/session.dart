@@ -67,29 +67,11 @@ class Session {
     PrefsHelper.setString('userInfo', userInfo.writeToJson());
   }
 
-  static set phone(String name) {
-    userInfo.phone = name;
-    PrefsHelper.setString('userInfo', userInfo.writeToJson());
-  }
   static set email(String name) {
     userInfo.email = name;
     PrefsHelper.setString('userInfo', userInfo.writeToJson());
   }
-  static set countryIsoCode(String code) {
-    PrefsHelper.setString('countryIsoCode', code);
-  }
 
-  static set needShowProfilePreset(bool value) {
-    PrefsHelper.setBool('needShowProfilePreset', value);
-  }
-
-  static bool get needShowProfilePreset {
-    return PrefsHelper.getBool('needShowProfilePreset', true);
-  }
-
-  static String get countryIsoCode {
-    return PrefsHelper.getString('countryIsoCode');
-  }
 
 
 }

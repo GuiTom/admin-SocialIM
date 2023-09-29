@@ -5,9 +5,10 @@ import '../protobuf/generated/adminUser.pb.dart';
 import '../protobuf/generated/common.pb.dart';
 import '../util/system.dart';
 import '../util/toast_util.dart';
+import '../util/util.dart';
 import 'net.dart';
 
-class LoginAPI{
+class LoginApi{
   static Future<AdminUserInfoResp?> login(
       {
         String? smsCode,
@@ -69,10 +70,34 @@ class LoginAPI{
   static Future<Resp> getEmailCode(
       {required String email,required String type}) async {
     Resp resp = await Net.post(
-        url: System.api('/api/user/getEmailCode'),
+        url: System.api('/api/adminUser/getEmailCode'),
         pb: true,
         params: {'email': email, 'type': type},
         pbMsg: Resp.create());
     return resp;
   }
+  static Future<Resp> setPassword(
+      {required int uid, required String password}) async {
+    Resp resp = await Net.post(
+        url: System.api('/api/adminUser/modify_password'),
+        pb: true,
+        params: {
+          'uid': uid,
+          'password': Util.cryptPwd(password)
+        },
+        pbMsg: Resp.create());
+    return resp;
+  }
+    static Future<AdminUserInfoResp> getAdminUserInfo(
+      {required int uid}) async {
+      AdminUserInfoResp resp = await Net.post(
+        url: System.api('/api/adminUser/info'),
+        pb: true,
+        params: {
+          'uid': uid,
+        },
+        pbMsg: AdminUserInfoResp.create());
+    return resp;
+  }
+
 }

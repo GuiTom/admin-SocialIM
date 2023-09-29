@@ -15,10 +15,9 @@ class AdminUser extends $pb.GeneratedMessage {
     ..aInt64(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'id')
     ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'name')
     ..aOS(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'email')
-    ..aOS(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'phone')
-    ..aOS(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'password')
-    ..aOS(6, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'priviledge')
-    ..aOB(7, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'passwordSetted', protoName: 'passwordSetted')
+    ..aOS(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'password')
+    ..a<$core.int>(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'priviledge', $pb.PbFieldType.O3)
+    ..aOB(6, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'passwordSetted', protoName: 'passwordSetted')
     ..hasRequiredFields = false
   ;
 
@@ -27,9 +26,8 @@ class AdminUser extends $pb.GeneratedMessage {
     $fixnum.Int64? id,
     $core.String? name,
     $core.String? email,
-    $core.String? phone,
     $core.String? password,
-    $core.String? priviledge,
+    $core.int? priviledge,
     $core.bool? passwordSetted,
   }) {
     final _result = create();
@@ -41,9 +39,6 @@ class AdminUser extends $pb.GeneratedMessage {
     }
     if (email != null) {
       _result.email = email;
-    }
-    if (phone != null) {
-      _result.phone = phone;
     }
     if (password != null) {
       _result.password = password;
@@ -105,40 +100,31 @@ class AdminUser extends $pb.GeneratedMessage {
   void clearEmail() => clearField(3);
 
   @$pb.TagNumber(4)
-  $core.String get phone => $_getSZ(3);
+  $core.String get password => $_getSZ(3);
   @$pb.TagNumber(4)
-  set phone($core.String v) { $_setString(3, v); }
+  set password($core.String v) { $_setString(3, v); }
   @$pb.TagNumber(4)
-  $core.bool hasPhone() => $_has(3);
+  $core.bool hasPassword() => $_has(3);
   @$pb.TagNumber(4)
-  void clearPhone() => clearField(4);
+  void clearPassword() => clearField(4);
 
   @$pb.TagNumber(5)
-  $core.String get password => $_getSZ(4);
+  $core.int get priviledge => $_getIZ(4);
   @$pb.TagNumber(5)
-  set password($core.String v) { $_setString(4, v); }
+  set priviledge($core.int v) { $_setSignedInt32(4, v); }
   @$pb.TagNumber(5)
-  $core.bool hasPassword() => $_has(4);
+  $core.bool hasPriviledge() => $_has(4);
   @$pb.TagNumber(5)
-  void clearPassword() => clearField(5);
+  void clearPriviledge() => clearField(5);
 
   @$pb.TagNumber(6)
-  $core.String get priviledge => $_getSZ(5);
+  $core.bool get passwordSetted => $_getBF(5);
   @$pb.TagNumber(6)
-  set priviledge($core.String v) { $_setString(5, v); }
+  set passwordSetted($core.bool v) { $_setBool(5, v); }
   @$pb.TagNumber(6)
-  $core.bool hasPriviledge() => $_has(5);
+  $core.bool hasPasswordSetted() => $_has(5);
   @$pb.TagNumber(6)
-  void clearPriviledge() => clearField(6);
-
-  @$pb.TagNumber(7)
-  $core.bool get passwordSetted => $_getBF(6);
-  @$pb.TagNumber(7)
-  set passwordSetted($core.bool v) { $_setBool(6, v); }
-  @$pb.TagNumber(7)
-  $core.bool hasPasswordSetted() => $_has(6);
-  @$pb.TagNumber(7)
-  void clearPasswordSetted() => clearField(7);
+  void clearPasswordSetted() => clearField(6);
 }
 
 class AdminUserInfoResp extends $pb.GeneratedMessage {

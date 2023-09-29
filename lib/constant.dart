@@ -1,10 +1,11 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
 class Constant {
   Constant._();
-
+  static late  BuildContext context;
   static String get serverUrl {
     if (isDebug) {
       return debugServertUrl;

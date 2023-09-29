@@ -1,8 +1,12 @@
 import 'package:admin_backend/api/login_api.dart';
+import 'package:admin_backend/constant.dart';
+import 'package:admin_backend/login/register_page.dart';
 import 'package:admin_backend/protobuf/generated/adminUser.pb.dart';
 import 'package:admin_backend/util/events.dart';
 import 'package:admin_backend/util/toast_util.dart';
 import 'package:flutter/material.dart';
+
+import '../constant.dart';
 
 import '../locale/k.dart';
 import '../model/session.dart';
@@ -58,7 +62,9 @@ class _State extends State<LoginPage> {
             ),
             Align(
                 alignment: AlignmentDirectional.centerEnd,
-                child: Padding(padding: const EdgeInsetsDirectional.only(end: 20), child: _buildRegisterButton())),
+                child: Padding(
+                    padding: const EdgeInsetsDirectional.only(end: 20),
+                    child: _buildRegisterButton())),
           ],
         ),
       ),
@@ -125,7 +131,7 @@ class _State extends State<LoginPage> {
           ToastUtil.showCenter(msg: '请输入密码');
           return;
         }
-        AdminUserInfoResp? resp = await LoginAPI.login(
+        AdminUserInfoResp? resp = await LoginApi.login(
             email: _email, password: Util.cryptPwd(_password!));
         if (resp?.code == 1 ?? false) {
           Session.userInfo = resp!.data;
@@ -139,6 +145,11 @@ class _State extends State<LoginPage> {
   }
 
   Widget _buildRegisterButton() {
-    return ElevatedButton(onPressed: () {}, child: Text('注册'));
+    return ElevatedButton(
+      onPressed: () {
+        RegisterPage.show(Constant.context);
+      },
+      child: const Text('注册'),
+    );
   }
 }

@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:convert';
+import 'dart:html';
 import 'dart:typed_data';
 import 'package:dog/dog.dart';
 import 'package:flutter/foundation.dart';
@@ -12,6 +15,9 @@ import '../constant.dart';
 import '../model/session.dart';
 import '../util/toast_util.dart';
 
+// import 'package:http_requests/http_requests.dart';
+import 'dart:js';
+
 class Net {
   static int LOGIC_ERROR_NO_RECORD = -4;
   static const LOGIC_ERROR_NO_PASSWARD = -9;
@@ -24,62 +30,52 @@ class Net {
 
   static Future<T> post<T extends $pb.GeneratedMessage>(
       {required String url,
-        required bool pb,
-        required Map<String, dynamic> params,
-        required T pbMsg}) async {
-    var headers = {'Content-Type': "application/x-www-form-urlencoded"};
+      required bool pb,
+      required Map<String, dynamic> params,
+      required T pbMsg}) async {
+    var headers = {
+      'Content-Type': "application/x-www-form-urlencoded",
+    };
     params['pb'] = pb ? '1' : '0';
     params['lan'] = ui.window.locale.languageCode;
-    params['country'] = ui.window.locale.countryCode;
-    // params['isIos'] = Constant.isIos?'1':'0';
-    try {
-      var response = await dio.post(
-        url,
-        options: Options(
-            headers: headers,
-            responseType: pb ? ResponseType.bytes : ResponseType.json),
-        data: FormData.fromMap(params),
-      );
+    context['console'].callMethod('log', ['开始调用']);
+    JsObject(context['getDartCall'], [url, jsonEncode(params)]);
+    Completer completer = Completer();
+    context['jsCallBack'] = (response) {
+      print(response);
+      completer.complete(Future.value(response));
+    };
 
-      if (response.statusCode == 200) {
-        if (pb) {
-          pbMsg.mergeFromBuffer(response.data);
-        } else {
-          pbMsg.mergeFromJson(response.data);
-        }
-      }
-    } catch (error) {
-      if (error is DioError) {
-        if (error.response?.statusCode == 401) {
+
+    var response = await completer.future;
+    if (response != null && response is JsObject) {
+      // 获取响应中的二进制数据部分
+      if (response['status'] == 200) {
+        pbMsg.mergeFromBuffer(response['data'] as List<int>);
+      } else {
+        if (response['status'] == 401) {
           ToastUtil.showCenter(msg: K.getTranslation('login_session_expired'));
           Session.logOut();
-        }
-        if (error.type == DioErrorType.other) {
-          ToastUtil.showCenter(msg: K.getTranslation('network_link_error'));
-        } else if (error.type == DioErrorType.connectTimeout) {
-          ToastUtil.showCenter(
-              msg: K.getTranslation('network_connect_timeout'));
-        } else if (error.type == DioErrorType.receiveTimeout) {
-          ToastUtil.showCenter(
-              msg: K.getTranslation('netowrk_response_timeout'));
+        } else {
+          print('error:$response');
+          // ToastUtil.showCenter(msg: response['error']);
         }
       }
-      dog.d(error);
     }
     return pbMsg;
   }
+
   static Dio? _dio;
+
   static Dio get dio {
     if (_dio == null) {
-      final cookieJar = PersistCookieJar(
-          storage: FileStorage(Constant.documentsDirectory?.path));
       _dio = Dio();
-      _dio!.interceptors.add(CookieManager(cookieJar));
+      if (!kIsWeb) {
+        final cookieJar = PersistCookieJar(
+            storage: FileStorage(Constant.documentsDirectory?.path));
+        _dio!.interceptors.add(CookieManager(cookieJar));
+      }
     }
     return _dio!;
   }
-
-
-
-
 }

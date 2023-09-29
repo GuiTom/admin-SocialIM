@@ -1,46 +1,50 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
+    <!--
+      If you are serving your web app in a path other than the root, change the
+      href value below to reflect the base path you are serving from.
 
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
+      The path provided below has to start and end with a slash "/" in order for
+      it to work correctly.
 
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+      For more details:
+      * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
 
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
-  -->
-  <base href="$FLUTTER_BASE_HREF">
+      This is a placeholder for base href that will be replaced by the value of
+      the `--base-href` argument provided to `flutter build`.
+    -->
+    <base href="$FLUTTER_BASE_HREF">
 
-  <meta charset="UTF-8">
-  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+    <meta charset="UTF-8">
+    <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+    <meta name="description" content="A new Flutter project.">
 
-  <!-- iOS meta tags & icons -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="admin_backend">
-  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+    <!-- iOS meta tags & icons -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="admin_backend">
+    <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png"/>
 
-  <title>admin_backend</title>
-  <link rel="manifest" href="manifest.json">
+    <title>admin_backend</title>
+    <link rel="manifest" href="manifest.json">
 
-  <script>
+    <script>
     // The value below is injected by flutter build, do not touch.
     var serviceWorkerVersion = null;
-  </script>
-  <!-- This script adds the flutter initialization JS code -->
-  <script src="flutter.js" defer></script>
+
+
+    </script>
+    <!-- This script adds the flutter initialization JS code -->
+    <script src="flutter.js" defer></script>
 </head>
 <body>
-  <script>
+<script src="https://cdn.bootcss.com/axios/0.18.0/axios.min.js"
+        type="application/javascript"></script>
+<script>
     window.addEventListener('load', function(ev) {
       // Download main.dart.js
       _flutter.loader.loadEntrypoint({
@@ -54,6 +58,69 @@
         }
       });
     });
-  </script>
+    function getDartCall(reqUrl, argStr){
+        const requestFormData = new FormData();
+        const paramMap = JSON.parse(argStr);
+        // 遍历Map并将键值对添加到FormData
+        for (const [key, value] of Object.entries(paramMap)) {
+          requestFormData.append(key, value);
+        }
+
+        axios({
+            method: 'post',
+            url: reqUrl,
+            data: requestFormData,
+            responseType: 'arraybuffer',
+            withCredentials:true,
+        })
+        .then(function(response) {
+        const cookies = response.headers['set-cookie'];
+
+    // 打印出 Set-Cookie 头部信息
+    if (cookies) {
+      console.log('Cookies in Response Header:');
+      cookies.forEach((cookie) => {
+        console.log(cookie);
+      });
+    } else {
+      console.log('No Set-Cookie header in the response.');
+    }
+        if(response.status==200){
+             const responseData = {
+                status: 200,
+                data: new Uint8Array(response.data),
+            };
+               jsCallBack(responseData);
+            }else {
+                const responseData = {
+                  status: response.status,
+                  error: error,
+               };
+               jsCallBack(responseData);
+
+          }
+        }).catch(function(error){
+              //请求失败回调
+              const errorData = {
+                  error: error,
+               };
+               if(error.response!=null){
+                    errorData['status'] = error.response['status'];
+               }
+               console.log(getProperties(error));
+              jsCallBack(errorData);
+        });
+    }
+    function getProperties(myObject) {
+    	var str = '';
+    	for (const property in myObject) {
+    		if (myObject.hasOwnProperty(property)) {
+    			str += property + ': ' + myObject[property] + '\n';
+    		}
+    	}
+    	return str;
+    }
+
+</script>
 </body>
 </html>

@@ -8,10 +8,10 @@ message AdminUser {
   int64 id = 1;
   string name = 2;
   string email = 3;
-  string phone = 4;
-  string password = 5;
-  string priviledge = 6;
-  bool passwordSetted = 7;
+  string password = 4;
+  int32 priviledge = 5;
+  bool passwordSetted = 6;
+
 }
 message AdminUserInfoResp {
   int32 code = 1;

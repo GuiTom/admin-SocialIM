@@ -15,15 +15,14 @@ const AdminUser$json = const {
     const {'1': 'id', '3': 1, '4': 1, '5': 3, '10': 'id'},
     const {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
     const {'1': 'email', '3': 3, '4': 1, '5': 9, '10': 'email'},
-    const {'1': 'phone', '3': 4, '4': 1, '5': 9, '10': 'phone'},
-    const {'1': 'password', '3': 5, '4': 1, '5': 9, '10': 'password'},
-    const {'1': 'priviledge', '3': 6, '4': 1, '5': 9, '10': 'priviledge'},
-    const {'1': 'passwordSetted', '3': 7, '4': 1, '5': 8, '10': 'passwordSetted'},
+    const {'1': 'password', '3': 4, '4': 1, '5': 9, '10': 'password'},
+    const {'1': 'priviledge', '3': 5, '4': 1, '5': 5, '10': 'priviledge'},
+    const {'1': 'passwordSetted', '3': 6, '4': 1, '5': 8, '10': 'passwordSetted'},
   ],
 };
 
 /// Descriptor for `AdminUser`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List adminUserDescriptor = $convert.base64Decode('CglBZG1pblVzZXISDgoCaWQYASABKANSAmlkEhIKBG5hbWUYAiABKAlSBG5hbWUSFAoFZW1haWwYAyABKAlSBWVtYWlsEhQKBXBob25lGAQgASgJUgVwaG9uZRIaCghwYXNzd29yZBgFIAEoCVIIcGFzc3dvcmQSHgoKcHJpdmlsZWRnZRgGIAEoCVIKcHJpdmlsZWRnZRImCg5wYXNzd29yZFNldHRlZBgHIAEoCFIOcGFzc3dvcmRTZXR0ZWQ=');
+final $typed_data.Uint8List adminUserDescriptor = $convert.base64Decode('CglBZG1pblVzZXISDgoCaWQYASABKANSAmlkEhIKBG5hbWUYAiABKAlSBG5hbWUSFAoFZW1haWwYAyABKAlSBWVtYWlsEhoKCHBhc3N3b3JkGAQgASgJUghwYXNzd29yZBIeCgpwcml2aWxlZGdlGAUgASgFUgpwcml2aWxlZGdlEiYKDnBhc3N3b3JkU2V0dGVkGAYgASgIUg5wYXNzd29yZFNldHRlZA==');
 @$core.Deprecated('Use adminUserInfoRespDescriptor instead')
 const AdminUserInfoResp$json = const {
   '1': 'AdminUserInfoResp',
