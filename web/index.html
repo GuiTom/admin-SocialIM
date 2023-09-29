@@ -35,15 +35,11 @@
     <script>
     // The value below is injected by flutter build, do not touch.
     var serviceWorkerVersion = null;
-
-
-    </script>
+  </script>
     <!-- This script adds the flutter initialization JS code -->
     <script src="flutter.js" defer></script>
 </head>
 <body>
-<script src="https://cdn.bootcss.com/axios/0.18.0/axios.min.js"
-        type="application/javascript"></script>
 <script>
     window.addEventListener('load', function(ev) {
       // Download main.dart.js
@@ -58,69 +54,6 @@
         }
       });
     });
-    function getDartCall(reqUrl, argStr){
-        const requestFormData = new FormData();
-        const paramMap = JSON.parse(argStr);
-        // 遍历Map并将键值对添加到FormData
-        for (const [key, value] of Object.entries(paramMap)) {
-          requestFormData.append(key, value);
-        }
-
-        axios({
-            method: 'post',
-            url: reqUrl,
-            data: requestFormData,
-            responseType: 'arraybuffer',
-            withCredentials:true,
-        })
-        .then(function(response) {
-        const cookies = response.headers['set-cookie'];
-
-    // 打印出 Set-Cookie 头部信息
-    if (cookies) {
-      console.log('Cookies in Response Header:');
-      cookies.forEach((cookie) => {
-        console.log(cookie);
-      });
-    } else {
-      console.log('No Set-Cookie header in the response.');
-    }
-        if(response.status==200){
-             const responseData = {
-                status: 200,
-                data: new Uint8Array(response.data),
-            };
-               jsCallBack(responseData);
-            }else {
-                const responseData = {
-                  status: response.status,
-                  error: error,
-               };
-               jsCallBack(responseData);
-
-          }
-        }).catch(function(error){
-              //请求失败回调
-              const errorData = {
-                  error: error,
-               };
-               if(error.response!=null){
-                    errorData['status'] = error.response['status'];
-               }
-               console.log(getProperties(error));
-              jsCallBack(errorData);
-        });
-    }
-    function getProperties(myObject) {
-    	var str = '';
-    	for (const property in myObject) {
-    		if (myObject.hasOwnProperty(property)) {
-    			str += property + ': ' + myObject[property] + '\n';
-    		}
-    	}
-    	return str;
-    }
-
-</script>
+  </script>
 </body>
 </html>

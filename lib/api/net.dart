@@ -40,27 +40,42 @@ class Net {
     params['lan'] = ui.window.locale.languageCode;
     context['console'].callMethod('log', ['开始调用']);
     JsObject(context['getDartCall'], [url, jsonEncode(params)]);
-    Completer completer = Completer();
-    context['jsCallBack'] = (response) {
+    Completer completer = new Completer();
+    context['jsCallBack'] = (response,responseData) {
       print(response);
-      completer.complete(Future.value(response));
+      completer.complete(Future.value({'response':response,'responseData':responseData}));
     };
 
-
-    var response = await completer.future;
-    if (response != null && response is JsObject) {
-      // 获取响应中的二进制数据部分
-      if (response['status'] == 200) {
-        pbMsg.mergeFromBuffer(response['data'] as List<int>);
-      } else {
-        if (response['status'] == 401) {
-          ToastUtil.showCenter(msg: K.getTranslation('login_session_expired'));
-          Session.logOut();
+    try {
+      var response = await completer.future;
+      if (response != null && response is JsObject) {
+        // 获取响应中的二进制数据部分
+        if (response['status'] == 200) {
+          // final Uint8List data =
+          //     Uint8List.fromList(response['data']);
+          // pbMsg.mergeFromBuffer(data);
         } else {
-          print('error:$response');
-          // ToastUtil.showCenter(msg: response['error']);
+          // 处理错误或无效的响应
+          print('response:$response');
         }
       }
+    } catch (error) {
+      if (error is DioError) {
+        if (error.response?.statusCode == 401) {
+          ToastUtil.showCenter(msg: K.getTranslation('login_session_expired'));
+          Session.logOut();
+        }
+        if (error.type == DioExceptionType.connectionTimeout) {
+          ToastUtil.showCenter(
+              msg: K.getTranslation('network_connect_timeout'));
+        } else if (error.type == DioExceptionType.receiveTimeout) {
+          ToastUtil.showCenter(
+              msg: K.getTranslation('netowrk_response_timeout'));
+        } else {
+          ToastUtil.showCenter(msg: K.getTranslation('network_link_error'));
+        }
+      }
+      dog.d(error);
     }
     return pbMsg;
   }
