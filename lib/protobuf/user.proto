@@ -40,8 +40,7 @@ message UserListResp {
   int32 code = 1;
   string message = 2;
   repeated User data = 3;
-  bool hasMore = 4;
-  int64 totalCount = 5;
+  int64 totalCount = 4;
 }
 message UserInfoResp {
   int32 code = 1;

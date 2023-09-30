@@ -468,8 +468,7 @@ class UserListResp extends $pb.GeneratedMessage {
     ..a<$core.int>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'code', $pb.PbFieldType.O3)
     ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'message')
     ..pc<User>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'data', $pb.PbFieldType.PM, subBuilder: User.create)
-    ..aOB(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'hasMore', protoName: 'hasMore')
-    ..aInt64(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'totalCount', protoName: 'totalCount')
+    ..aInt64(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'totalCount', protoName: 'totalCount')
     ..hasRequiredFields = false
   ;
 
@@ -478,7 +477,6 @@ class UserListResp extends $pb.GeneratedMessage {
     $core.int? code,
     $core.String? message,
     $core.Iterable<User>? data,
-    $core.bool? hasMore,
     $fixnum.Int64? totalCount,
   }) {
     final _result = create();
@@ -490,9 +488,6 @@ class UserListResp extends $pb.GeneratedMessage {
     }
     if (data != null) {
       _result.data.addAll(data);
-    }
-    if (hasMore != null) {
-      _result.hasMore = hasMore;
     }
     if (totalCount != null) {
       _result.totalCount = totalCount;
@@ -542,22 +537,13 @@ class UserListResp extends $pb.GeneratedMessage {
   $core.List<User> get data => $_getList(2);
 
   @$pb.TagNumber(4)
-  $core.bool get hasMore => $_getBF(3);
+  $fixnum.Int64 get totalCount => $_getI64(3);
   @$pb.TagNumber(4)
-  set hasMore($core.bool v) { $_setBool(3, v); }
+  set totalCount($fixnum.Int64 v) { $_setInt64(3, v); }
   @$pb.TagNumber(4)
-  $core.bool hasHasMore() => $_has(3);
+  $core.bool hasTotalCount() => $_has(3);
   @$pb.TagNumber(4)
-  void clearHasMore() => clearField(4);
-
-  @$pb.TagNumber(5)
-  $fixnum.Int64 get totalCount => $_getI64(4);
-  @$pb.TagNumber(5)
-  set totalCount($fixnum.Int64 v) { $_setInt64(4, v); }
-  @$pb.TagNumber(5)
-  $core.bool hasTotalCount() => $_has(4);
-  @$pb.TagNumber(5)
-  void clearTotalCount() => clearField(5);
+  void clearTotalCount() => clearField(4);
 }
 
 class UserInfoResp extends $pb.GeneratedMessage {

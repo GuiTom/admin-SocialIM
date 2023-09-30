@@ -54,13 +54,12 @@ const UserListResp$json = const {
     const {'1': 'code', '3': 1, '4': 1, '5': 5, '10': 'code'},
     const {'1': 'message', '3': 2, '4': 1, '5': 9, '10': 'message'},
     const {'1': 'data', '3': 3, '4': 3, '5': 11, '6': '.user.User', '10': 'data'},
-    const {'1': 'hasMore', '3': 4, '4': 1, '5': 8, '10': 'hasMore'},
-    const {'1': 'totalCount', '3': 5, '4': 1, '5': 3, '10': 'totalCount'},
+    const {'1': 'totalCount', '3': 4, '4': 1, '5': 3, '10': 'totalCount'},
   ],
 };
 
 /// Descriptor for `UserListResp`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List userListRespDescriptor = $convert.base64Decode('CgxVc2VyTGlzdFJlc3ASEgoEY29kZRgBIAEoBVIEY29kZRIYCgdtZXNzYWdlGAIgASgJUgdtZXNzYWdlEh4KBGRhdGEYAyADKAsyCi51c2VyLlVzZXJSBGRhdGESGAoHaGFzTW9yZRgEIAEoCFIHaGFzTW9yZRIeCgp0b3RhbENvdW50GAUgASgDUgp0b3RhbENvdW50');
+final $typed_data.Uint8List userListRespDescriptor = $convert.base64Decode('CgxVc2VyTGlzdFJlc3ASEgoEY29kZRgBIAEoBVIEY29kZRIYCgdtZXNzYWdlGAIgASgJUgdtZXNzYWdlEh4KBGRhdGEYAyADKAsyCi51c2VyLlVzZXJSBGRhdGESHgoKdG90YWxDb3VudBgEIAEoA1IKdG90YWxDb3VudA==');
 @$core.Deprecated('Use userInfoRespDescriptor instead')
 const UserInfoResp$json = const {
   '1': 'UserInfoResp',

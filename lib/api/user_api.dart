@@ -21,4 +21,16 @@ class UserAPI {
     }
     return userListResp;
   }
+  static Future<UserListResp> searchUsers(String keyWord,int pageNo, int pageSize) async {
+    String url = System.api('/api/user/searchUsers');
+    Map<String, dynamic> params = {
+      'uid': Session.uid,
+      'keyword':keyWord,
+      'pageNo': pageNo,
+      'pageSize': pageSize
+    };
+    UserListResp resp = await Net.post(
+        url: url, pb: true, params: params, pbMsg: UserListResp.create());
+    return resp;
+  }
 }
