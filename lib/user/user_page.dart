@@ -95,7 +95,7 @@ class _State extends State<UserPage> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: ['id', '昵称', '性别', '地区']
             .map((e) => Expanded(
-                    child: Text(
+                    child: SelectableText(
                   e,
                   textAlign: TextAlign.center,
                 )))
@@ -116,7 +116,7 @@ class _State extends State<UserPage> {
           user.sex.toString(),
           user.countryName
         ]
-            .map((e) => Expanded(child: Text(e, textAlign: TextAlign.center)))
+            .map((e) => Expanded(child: SelectableText(e, textAlign: TextAlign.center)))
             .toList(),
       ),
     );
