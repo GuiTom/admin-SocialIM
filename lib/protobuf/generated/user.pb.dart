@@ -469,6 +469,7 @@ class UserListResp extends $pb.GeneratedMessage {
     ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'message')
     ..pc<User>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'data', $pb.PbFieldType.PM, subBuilder: User.create)
     ..aOB(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'hasMore', protoName: 'hasMore')
+    ..aInt64(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'totalCount', protoName: 'totalCount')
     ..hasRequiredFields = false
   ;
 
@@ -478,6 +479,7 @@ class UserListResp extends $pb.GeneratedMessage {
     $core.String? message,
     $core.Iterable<User>? data,
     $core.bool? hasMore,
+    $fixnum.Int64? totalCount,
   }) {
     final _result = create();
     if (code != null) {
@@ -491,6 +493,9 @@ class UserListResp extends $pb.GeneratedMessage {
     }
     if (hasMore != null) {
       _result.hasMore = hasMore;
+    }
+    if (totalCount != null) {
+      _result.totalCount = totalCount;
     }
     return _result;
   }
@@ -544,6 +549,15 @@ class UserListResp extends $pb.GeneratedMessage {
   $core.bool hasHasMore() => $_has(3);
   @$pb.TagNumber(4)
   void clearHasMore() => clearField(4);
+
+  @$pb.TagNumber(5)
+  $fixnum.Int64 get totalCount => $_getI64(4);
+  @$pb.TagNumber(5)
+  set totalCount($fixnum.Int64 v) { $_setInt64(4, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasTotalCount() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearTotalCount() => clearField(5);
 }
 
 class UserInfoResp extends $pb.GeneratedMessage {
